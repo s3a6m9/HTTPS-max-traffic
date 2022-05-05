@@ -57,7 +57,7 @@ class HttpTest:
 
     def get_request(self):
         """
-        get_request is a important part of the class, it is used for sending
+        get_request is an important part of the class, it is used for sending
         the requests to the server and is aimed to be executed in a thread
         which allows multiple instances of it to run at once. The targetted
         web server host URL is specified when the class is created so no new
