@@ -1,13 +1,13 @@
 """
 This script is for estimating the HTTP traffic capacity for a web server.
 It can be ran from terminal using the args:
---rps=<target requests per second
+--rps=<target requests per second>
 --url=<web server URL>
 
 Example:
 python3 script.py --url=http://localhost:3000/ --rps=400
 """
-import sys
+import argparse
 import threading
 import time
 import requests
@@ -127,19 +127,15 @@ class HttpTest:
 
 def main():
     """ main function """
-    command_line_args = sys.argv
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--rps", type=int, required=True, help="Target number of requests per second")
+    parser.add_argument("--url", type=str, required=True, help="The full URL for testing")
+    args = parser.parse_args()
 
-    for arg in command_line_args:
-        if arg.startswith("--rps="):
-            rps = int(arg.split("=")[1])
+    print(f"Target requests/second: {args.rps}")
+    print(f"Target website: {args.url}")
 
-        if arg.startswith("--url="):
-            url = arg.split("=")[1]
-
-    print(f"Target requests/second: {rps}")
-    print(f"Target website: {url}")
-
-    strain_test = HttpTest(url, rps)
+    strain_test = HttpTest(args.url, args.rps)
     strain_test.request_manager()
 
 
